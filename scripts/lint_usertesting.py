@@ -68,6 +68,15 @@ NPS_TAG_RE = re.compile(r"`\[NPS[^`]*\]`")
 QUESTION_HEAD_RE = re.compile(r"^####\s+(?:Q|题|问题)\s*(\d+)", re.M)
 SCALE_LABEL_RE = re.compile(r"\*\*(?:Scale Labels|量表标签)\*\*", re.I)
 
+# 题号区间写法（"Q1-Q34" / "问题 17-22"）：是概述不是指针，
+# 两个端点算作"已声明存在"，中段仍必须由真实题目标题定义。
+Q_RANGE_RE = re.compile(r"(?:Q|q|题|问题)\s*(\d+)\s*[-–—~]\s*(?:Q|q|题|问题)?\s*(\d+)")
+# 标题行里带反引号题号的写法，如 `### Task A · Navigation（下载并打开游戏）　`Q1``：
+# 无人版的 Q1 是导航任务本身、有人版没有 Q1，这类"占号但不是问答题"的单元
+# 只出现在标题里，必须算作已定义，否则交叉引用检查会全线误报。
+ANY_HEADING_RE = re.compile(r"^#{2,6}[^\n]*", re.M)
+HEADING_Q_RE = re.compile(r"`(?:Q|q|题|问题)\s*(\d+)`")
+
 
 class Finding:
     def __init__(self, level, category, message):
@@ -278,6 +287,22 @@ def check_alignment(en_text, sc_text):
     return findings
 
 
+def declared_question_numbers(text):
+    """文档里"已声明存在"的题号集合。
+
+    三个来源：
+    1. `#### Q N` 题目标题
+    2. 标题行里带反引号的题号（无人版 `Q1` = Task A 的导航单元）
+    3. 题号区间的两个端点（"全篇共 Q1-Q34"）
+    """
+    nums = {int(m) for m in QUESTION_HEAD_RE.findall(text)}
+    for heading in ANY_HEADING_RE.findall(text):
+        nums |= {int(m) for m in HEADING_Q_RE.findall(heading)}
+    for a, b in Q_RANGE_RE.findall(text):
+        nums |= {int(a), int(b)}
+    return nums
+
+
 def check_cross_references(text, label):
     """检查正文里的题号交叉引用是否指向真实存在的题。
 
@@ -288,7 +313,7 @@ def check_cross_references(text, label):
     排除 RQ（研究问题）、页码、金额等噪声。
     """
     findings = []
-    defined = {int(m) for m in QUESTION_HEAD_RE.findall(text)}
+    defined = declared_question_numbers(text)
     if not defined:
         return findings
 
@@ -311,13 +336,14 @@ def check_cross_references(text, label):
 
 
 def check_segment_sequence(text, label):
-    """有人版（环节 N）的环节编号连续性。
+    """有人版（环节 / Segment N）的环节编号连续性。
 
     `check_task_structure` 只认无人版的 Task/Page 结构；
-    有人版用 `### 环节 N`，需要单独查，否则它的结构错误无人兜底。
+    有人版用 `### 环节 N`（中文）或 `### Segment N`（英文），
+    需要单独查，否则它的结构错误无人兜底。
     """
     findings = []
-    segs = [int(n) for n in re.findall(r"^###\s+环节\s*(\d+)", text, re.M)]
+    segs = [int(n) for n in re.findall(r"^###\s+(?:环节|Segment)\s*(\d+)", text, re.M)]
     if not segs:
         return findings
     uniq = sorted(set(segs))

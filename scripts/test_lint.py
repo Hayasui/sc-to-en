@@ -111,6 +111,33 @@ def test_cross_references():
     text_rq = "#### Q1　first\n\n> RQ1 and RQ4 are research questions\n"
     check("RQ1 不误报", not has_error(LINT.check_cross_references(text_rq, "T")))
 
+    # 无人版的 Q1 是 Task A 的导航单元，只写在标题里，占号但不是问答题：
+    # 正文里引用 Q1 是合法的，不能报成悬空引用（2026-09-11 实测踩到）
+    text_nav = (
+        "### Task A · Navigation (Download & Open the Game)　`Q1`\n\n"
+        "> Q1 is the navigation unit, not a question.\n\n"
+        "#### Q2　second\n\nbody\n"
+    )
+    check("标题里的 Q1 占号单元不误报",
+          not has_error(LINT.check_cross_references(text_nav, "T")))
+
+    # 题号区间是概述，端点不能算悬空引用
+    text_range = (
+        "#### Q2　first\n\n> All 34 questions: Q1-Q34.\n\n"
+        "#### Q34　last\n\nbody\n"
+    )
+    check("题号区间端点不误报",
+          not has_error(LINT.check_cross_references(text_range, "T")))
+
+    # 区间之外的悬空引用仍然要报出来（防止放宽过头）
+    text_out_of_range = (
+        "> All 34 questions: Q1-Q34.\n\n"
+        "#### Q2　first\n\n> see Q35 for details\n\n"
+        "#### Q34　last\n\nbody\n"
+    )
+    check("区间之外仍被检出",
+          has_error(LINT.check_cross_references(text_out_of_range, "T"), "不存在的题号"))
+
 
 def test_segment_sequence():
     """有人版的环节编号连续性。"""
@@ -133,6 +160,16 @@ def test_segment_sequence():
     # 无人版没有"环节"，不能误报
     none_doc = "### Task B · Page 1: x\n\n#### Q1　y\n"
     check("无环节结构不报错", not has_error(LINT.check_segment_sequence(none_doc, "T")))
+
+    # 英文版有人大纲用 `### Segment N`，同样要查连续性
+    en_ok = "### Segment 1 · a\n\n### Segment 2 · b\n"
+    check("英文 Segment 连续不报错", not has_error(LINT.check_segment_sequence(en_ok, "T")))
+
+    en_gap = "### Segment 1 · a\n\n### Segment 3 · c\n"
+    check(
+        "英文 Segment 跳号被检出",
+        has_error(LINT.check_segment_sequence(en_gap, "T"), "不连续"),
+    )
 
 
 def test_question_sequence():
