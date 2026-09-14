@@ -24,11 +24,12 @@
 | 二合 / 合成 | **merge** | 品类名 |
 | 三消 | **match-3** | |
 | 棋盘 | **board** | 合成玩法的主界面 |
-| 棋子 | **piece / tile** | 合成用的物品 |
+| 棋子 | **item / items** | 合成用的物品。英文玩家在二合品类里习惯叫 item（2026-09-14 定），**不用 piece / tile** |
+| 消耗性道具 | **Consumable / Consumables** | 金币、道具、通行证这类可消耗的付费内容。与「棋子 = item」分开，避免一个词指两样东西；句子中间小写即可 |
 | 合成链路 | **merge chain** | 从低级到高级的合成链条 |
 | 辨识度 | **distinguishability** | 棋子能否一眼分辨（内部术语） |
 | 游乐场 | **carnival / theme park** | 本作题材 |
-| 建地块 / 激活格子 | **activate tiles / build** | 外围玩法 |
+| 建地块 / 激活格子 | **activate tiles / build** | 外围玩法（这里保留 tile，指地块/格子，不是棋子） |
 | 挂机 / 放置 | **idle / auto-income** | |
 | 美术风格 | **art style** | |
 | 卡通粘土风 | **cartoon-clay** | 内部描述词 |
@@ -48,6 +49,21 @@
 | 排序题 | **Ranking** |
 | 必答 / 选答 | **required / optional** |
 | 量表标签 | **Scale Labels** |
+
+## 有人版（主持人版）的字段名（2026-09-14 定，不要改）
+
+有人版整份都是给英文主持人用的，栏目名固定成这几个，跨文档一致：
+
+| 中文栏目 | 英文栏目名 | 说明 |
+|---------|-----------|------|
+| 提问话术 | **Script** | 主持人直接念出口的话 |
+| 追问方向 | **Follow-up directions** | 主持人栏，分浅层与「deeper layer」 |
+| 观察记录点 | **What to note** | 记什么，不是念什么 |
+| 内部提醒 | **Internal note** | 引用块，不念 |
+| 主持人操作 / 主持人动作 | **Moderator actions** | 现场怎么处理 |
+| 记录清单（主持人用） | **Record sheet (moderator only)** | 只记不念，用来对账 |
+| 提示清单（主持人用） | **Prompt list (moderator only)** | 只在玩家说得不够时补足，不念 |
+| 环节 | **Segment** | 无人版的 Page 在有人版叫环节 |
 
 ## 平台概念
 
