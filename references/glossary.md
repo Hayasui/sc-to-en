@@ -50,6 +50,19 @@
 | 必答 / 选答 | **required / optional** |
 | 量表标签 | **Scale Labels** |
 
+## 量表标签的固定写法（2026-09-14 定）
+
+| 中文标签 | 英文标签 |
+|---------|---------|
+| 1 = 非常不满意 ｜ 10 = 非常满意 | **1 = Very dissatisfied** ｜ **10 = Extremely satisfied** |
+| 1 = 肯定不会玩 ｜ 10 = 肯定会玩 | **1 = Definitely won't play** ｜ **10 = Definitely will play** |
+| 1 = 很不同意 ｜ 5 = 很同意 | **1 = Strongly disagree** ｜ **5 = Strongly agree** |
+| 1 = 非常不喜欢 ｜ 10 = 非常喜欢 | **1 = Dislike it a lot** ｜ **10 = Like it a lot** |
+| NPS（0-10） | **不写 Scale Labels**，两端说明写在题干里 |
+
+1. **表「不满」情绪用 `dissatisfied`，不用 `unsatisfied`。** `unsatisfied` 是「需求没被满足」（a need unmet），`dissatisfied` 才是「不满意」（情绪），满意度的量表要的是后者；中文「非常不满意」对应 `Very dissatisfied`。有人在版把量表念在题干里（`1 is very dissatisfied, 10 is very satisfied.`），同样照此。
+2. 改动这两处时，**两份英文稿要一起改**。2026-09-14 曾出现无人版写成 `Very dissatisfied`、有人版还留着 `Very unsatisfied` 的分叉，起因就是单边改。
+
 ## 有人版（主持人版）的字段名（2026-09-14 定，不要改）
 
 有人版整份都是给英文主持人用的，栏目名固定成这几个，跨文档一致：
