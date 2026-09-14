@@ -119,11 +119,7 @@ UserTesting 上通常是 **2 个 Task**：
 **量表标签**：**1 = 非常不满意** 　|　 **10 = 非常满意**
 ```
 
-英文版：
-
-```markdown
-**Scale Labels**: **1 = Very unsatisfied** 　|　 **10 = Extremely satisfied**
-```
+英文版的端点措辞**照 `survey-wording.md` 取**（唯一出处），不要在本文档里写死某一套。
 
 Matrix 题同时给行（陈述）和列（量表）结构：
 

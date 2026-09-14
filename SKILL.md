@@ -93,7 +93,8 @@ agent_created: true
 ### 第 3 步：本地化（分批交付）
 
 读 `references/localization-principles.md`，逐句本地化**玩家可见部分**。
-遇到研究概念、游戏术语时，先查 `references/glossary.md` 的固定译法，**不要临场另起一个说法**。
+遇到研究概念、游戏术语时，先查 `references/glossary.md` 的固定译法，**不要临场另起一个说法**；
+量表端点与固定选项标签另查 `references/survey-wording.md`（那份是唯一出处）。
 
 **分批交付是默认工作方式**（用户 Q10 定案）：
 
@@ -155,6 +156,7 @@ python scripts/test_lint.py
 | `references/localization-principles.md` | 英文本地化标准（不直译、不用俚语、Title Case、术语不译、面向普通玩家的措辞） |
 | `references/doc-structure.md` | md 文档结构规范（玩家可见/内部参考分离、每题字段、可直接粘贴的状态、新建骨架） |
 | `references/glossary.md` | **术语对照表**——中英固定说法，保证跨文档/跨会话一致 |
+| `references/survey-wording.md` | **量表端点与固定选项标签的唯一出处**——四套端点的中英对照、逐行出处、平台结构限制、没有权威来源的那几套怎么标 |
 | `references/checklist.md` | 交付前逐项检查清单 |
 | `references/roadmap.md` | 升级路线图、改进候选、怎么提升级需求 |
 

@@ -11,12 +11,27 @@
 | 3 | **术语对照表（glossary）** | P0 | 易 | 跨文档/跨会话术语一致性（carnival、baseline game 等）无保障 |
 | 4 | **中英"漂移"检测** | P1 | 中 | 英文版润色后，中文版常滞后；目前只能靠人工记得回写 |
 | 5 | **中式英文模式库（可 grep）** | P1 | 中 | 本次全靠人工通读才发现 `fits with ... you understand` 这类直译 |
-| 6 | **Scale Labels 端点语义校验** | P1 | 中 | 满意度/可能性/同意度三套端点易混用；现在只查"有没有"，不查"对不对" |
+| 6 | **Scale Labels 端点语义校验**（方案已定，未实现） | P1 | 中 | 三套端点易混用；现在只查「有没有」，不查「对不对」。**2026-09-14 定方案**：报 WARN 不报 ERROR，白名单从 `survey-wording.md` 生成 |
 | 7 | **`--fix` 自动修复安全项** | P1 | 中 | 去掉选项里的 `(please specify)`、清中文标点等机械改动可自动化 |
 | 8 | **1000 字符块的稳健定位** | P1 | 中 | 现在靠标题关键词匹配 Instruction/Navigation，标题一改就失效 |
 | 9 | **UserTesting 批量导入格式** | P2 | 难 | 若平台支持 CSV/批量导入，可直接生成；需先确认平台能力 |
 | 10 | **本地化质量自动评分** | P2 | 难 | 需要 LLM 判断"读起来像不像母语者"，规则做不到 |
 | 11 | **题干模板库** | P2 | 中 | 满意度/NPS/Verbal 等题型的标准英文句式可复用 |
+
+## 已落地（2026-09-14）
+
+- ✅ **量表端点有了唯一出处** —— 新增 `references/survey-wording.md`。起因：`Very unsatisfied`
+  应为 `Very dissatisfied`，而同一个端点在**六个文件里各留了一份**，其中五份写着错词
+  （`platform-constraints.md` 两处、`doc-structure.md` 一处、本文件一处、
+  `md-to-research-xlsx` 的样例脚本两处）。那四处连同样例脚本，现在都改成指向
+  `survey-wording.md` 的一句话。**教训：错词是靠复制传播的，规范也一样。**
+- ✅ **平台结构限制核准** —— Rating scale 的 Numeric 型量程官方写 **-3 到 10**，
+  所以「全篇 1-10」合法；Customized 型标签上限 7；NPS 是独立题型、固定 0-10。
+  「可选 5 / 7 / 9 / 11 点」那句属于旧平台，已在新表里标注代际差别。
+- ✅ **端点措辞的处置口径** —— 现用四套端点保留不动（属选择、不属错），逐行标出处；
+  「继续玩的可能性」「喜好度」两套标明**项目自定、无权威来源**，防止以后被当成权威照抄。
+- ✅ **Q4 定案：有人版量表念法不统一** —— Q10 / Q11 念 `1 is the lowest, 10 is the highest.`，
+  Q17 / Q23 / Q25 念 `1 is very dissatisfied, 10 is very satisfied.`，保持现状。
 
 ## 已落地（本次迭代）
 
@@ -40,7 +55,8 @@
 ## 下一轮建议（按顺序）
 
 1. **#4 中英漂移检测**：比对中英同题的句子数 / 关键词，英文多出或少了整句就报警。这是最容易出现"两边对不上"的地方。
-2. **#6 Scale Labels 语义校验**：按题型分组校验端点（满意度→unsatisfied/satisfied，可能性→won't/will，同意度→disagree/agree）。
+2. **#6 Scale Labels 语义校验**：白名单从 `references/survey-wording.md` 读，按题型分组校验端点
+   （满意度→satisfied 系、可能性→play / likely 系、同意度→agree 系）。报 WARN 级。
 3. **#7 `--fix`**：先只做最安全的两类——选项行末尾的 `(please specify)` 类提示、行尾中文标点。改动前自动备份（现在有 git 兜底了，风险下降）。
 
 ## 已知未解决

@@ -69,19 +69,14 @@
 
 **NPS 题型除外**（NPS 有自己的固定量表）。
 
-**对策**：在文档里为每道量表题显式写出 Scale Labels，例如：
+**对策**：在文档里为每道量表题显式写出 Scale Labels。
 
-```
-**Scale Labels**: 1 = Very unsatisfied  |  10 = Extremely satisfied
-```
+**端点的具体措辞见 `survey-wording.md`——那份是唯一出处，不要在本文件里另抄一份。**
+它列了项目在用的四套端点、固定选项标签、逐行出处，以及平台真实的结构限制
+（Numeric 型量程 -3 到 10、Customized 型标签上限 7）。要加一套新端点，先改那份表。
 
-注意端点的**语义要贴题**：
-
-- 满意度题（1-10）：`Very unsatisfied` / `Extremely satisfied`
-- 可能性题（1-10，如"明天还会不会玩"）：`Definitely won't play` / `Definitely will play`
-- 同意度 Matrix（1-5）：`Strongly disagree` / `Strongly agree`
-
-不要所有量表题都套同一组端点。
+判断端点是否贴题只有一条：**读端点就知道题在问什么**。满意度用 satisfied 系、
+可能性用 play / likely 系、同意度用 agree 系，不要所有量表题都套同一组端点。
 
 **区间要全篇统一（2026-09-09 定案）**：同一份问卷里的 Rating scale **一律 1-10**，
 不要混用 0-10 和 1-10。理由：玩家在翻页之间容易看错起点，分析时也容易把 0 分和 1 分记混。
