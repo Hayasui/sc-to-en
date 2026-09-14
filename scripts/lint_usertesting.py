@@ -6,6 +6,7 @@ lint_usertesting.py — 检查用研 md 英文版是否符合 UserTesting 平台
 用法:
     python lint_usertesting.py <英文版.md>
     python lint_usertesting.py <英文版.md> --sc <中文版.md>   # 额外做中英结构比对
+    python lint_usertesting.py <中文定稿.md>                 # 只查结构（本地化类报错全是对中文的误报，忽略即可）
 
 检查项:
     [平台] Instruction/Navigation text 是否超 1000 字符
@@ -19,6 +20,9 @@ lint_usertesting.py — 检查用研 md 英文版是否符合 UserTesting 平台
     [结构] Task A Instruction/Navigation + Task B Page 是否齐全
     [结构] 有人版（环节 N）的环节是否连续
     [对齐] 中英题号数 / 每题选项数是否一致 (需 --sc)
+
+中文定稿改完可以先只跑结构（本地化类报错滤掉即可），比等到本地化完再发现问题省事。
+不传 --sc 时结构检查也会跑，标签取文件名，报错里不会把中文稿误标成"英文版"。
 
 退出码: 0 = 全部通过, 1 = 有问题
 """
@@ -445,10 +449,13 @@ def main():
     findings += check_forbidden_prompts(en_lines)
     findings += check_text_limits(en_lines)
     findings += check_scale_labels(en_text)
-    findings += check_question_sequence(en_text, "英文版")
-    findings += check_cross_references(en_text, "英文版")
-    findings += check_segment_sequence(en_text, "英文版")
-    findings += check_task_structure(en_text, "英文版")
+    # 结构类检查的标签用实际文件名，不要写死"英文版"——这个脚本也会被拿来查中文定稿的结构
+    # （不带 --sc 时结构检查照样跑，而那时传进来的可能就是中文版，报"英文版 题号重复"会误导）。
+    target_label = en_path.name
+    findings += check_question_sequence(en_text, target_label)
+    findings += check_cross_references(en_text, target_label)
+    findings += check_segment_sequence(en_text, target_label)
+    findings += check_task_structure(en_text, target_label)
 
     if args.sc:
         sc_path = Path(args.sc)
