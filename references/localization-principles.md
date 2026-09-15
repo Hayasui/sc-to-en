@@ -89,4 +89,31 @@
 
 - **鼓励**：让玩家放心说出真实想法（`There's no wrong way to put it.`）
 - **不施压**：`no right or wrong`、`don't worry about...`
-- **清楚**：`0 means definitely not, 10 means definitely yes.`
+- **清楚**：`1 means definitely not, 7 means definitely yes.`
+
+## 10. 贴住中文的原意，不贴中文的句式
+
+第 1 节说的"不直译"针对的是**句式**，不是**语义**。这一轮返工暴露了反方向的毛病：
+英文读着顺，形容词和动词却换了档——中文说"乱、不好看清"，英文写成 `a bit messy` 就把语气削掉；
+中文说"合不出订单要的东西"，英文泛化成 `items`，指代就糊了。
+顺口与贴意冲突时，**先贴意，再顺口**。
+
+自检办法：把英文回译成中文，跟定稿比。少了程度、动作或对象，或者多出中文没下的判断，就是跑偏。
+
+这一轮的实例（中文定稿 → 旧英文 → 现在用）：
+
+| 中文 | 旧英文 | 现在用 |
+|---|---|---|
+| 手感怎么样（会不会拖不动、放不准、不好对齐） | how does it feel — does it drag properly, land where you want it, line up easily? | how does it feel — do they not drag properly, are they hard to place accurately, or are they hard to align? |
+| 这个棋盘显得乱而且不好看清 | The board is a bit messy and hard to see clearly | The board feels cluttered and is hard to see clearly |
+| 我清楚棋盘上可摆放的棋子有上限 | I'm clear that the board can only hold so many items | I am aware that there is a limit to the number of items that can be placed on the board |
+| 棋子分不清 / 合成链路看不懂 | The items are hard to tell apart and the merge chain is hard to follow | Items are hard to tell apart / the merge chain is hard to understand |
+| 游乐场 | carnival | amusement park |
+
+三条纪律：
+
+- 中文的语气与否定（"有点""不太""压根""其实可有可无"）是数据。英文别替它加权，也别替它减权。
+- 中文给的是动作就别换成状态词：`把两个相同的棋子拖到一起` 不要写成 `put two matching items together`。
+- 中文里的行业词（消耗性道具、战令、通行证）不照字面硬译，但也不许泛化成 `items`——先查 `glossary.md`。
+
+改完英文版，**回译一遍再交付**。这一轮 33 题里有十来处是回译才看得出差别的。

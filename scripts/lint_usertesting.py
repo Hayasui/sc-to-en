@@ -11,7 +11,7 @@ lint_usertesting.py — 检查用研 md 英文版是否符合 UserTesting 平台
 检查项:
     [平台] Instruction/Navigation text 是否超 1000 字符
     [平台] 是否残留平台禁止的自填提示 (please specify / 请说明 ...)
-    [平台] 量表题是否都有 Scale Labels; NPS 题不应有
+    [平台] 量表题是否都有 Scale Labels; NPS 题若写标签，低端须为 0
     [本地化] 是否残留汉字 / 中文标点
     [本地化] 是否残留隐形字符（控制字符 / 零宽字符 / BOM / 替换字符 / 全角空格）
     [本地化] 章节序号是否还是中文 (一、二、)
@@ -171,7 +171,7 @@ def check_forbidden_prompts(lines):
 
 
 def check_scale_labels(text):
-    """检查每个量表题是否带 Scale Labels；NPS 题不应有。"""
+    """检查每个量表题是否带 Scale Labels；NPS 题若写标签，低端须为 0。"""
     findings = []
     # 按题目切分
     parts = re.split(r"^(####\s+(?:Q|题|问题)\s*\d+.*)$", text, flags=re.M)
@@ -190,10 +190,13 @@ def check_scale_labels(text):
                 f"{label} 是量表题但缺少 Scale Labels"
             ))
         if is_nps and has_label:
-            findings.append(Finding(
-                "WARN", "量表",
-                f"{label} 是 NPS 题，不应额外加 Scale Labels（NPS 自带量表）"
-            ))
+            lab_line = next(
+                (l for l in body.split("\n") if SCALE_LABEL_RE.search(l)), "")
+            if not re.search(r"\*\*0\s*=", lab_line):
+                findings.append(Finding(
+                    "WARN", "量表",
+                    f"{label} 是 NPS 题，Scale Labels 必须从 0 起算（NPS 固定 0-10）"
+                ))
     return findings
 
 

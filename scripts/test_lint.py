@@ -198,7 +198,7 @@ def test_parse_questions_scope():
 
 
 def test_scale_labels():
-    """量表题必须有 Scale Labels；NPS 不该有。"""
+    """量表题必须有 Scale Labels；NPS 若写标签须从 0 起算。"""
     print("\n[Scale Labels]")
     ok = (
         "#### Q1　`[Rating scale · 1-10 · required]`　x\n\n"
@@ -212,12 +212,19 @@ def test_scale_labels():
         has_error(LINT.check_scale_labels(missing), "缺少 Scale Labels"),
     )
 
-    nps_with = (
+    nps_zero = (
+        "#### Q1　`[NPS · 0-10 · required]`　x\n\n"
+        "**Scale Labels**: **0 = low** | **10 = high**\n"
+    )
+    check("NPS 标签从 0 起算不报警",
+          not any(f.level == "WARN" for f in LINT.check_scale_labels(nps_zero)))
+
+    nps_one = (
         "#### Q1　`[NPS · 0-10 · required]`　x\n\n"
         "**Scale Labels**: **1 = low** | **10 = high**\n"
     )
-    r = LINT.check_scale_labels(nps_with)
-    check("NPS 带标签给警告", any(f.level == "WARN" for f in r))
+    check("NPS 标签从 1 起算被警告",
+          any(f.level == "WARN" for f in LINT.check_scale_labels(nps_one)))
 
 
 def test_forbidden_prompts():

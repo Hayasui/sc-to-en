@@ -7,7 +7,7 @@
 - [ ] 🤖 **Instruction text ≤ 1000 字符**
 - [ ] 🤖 **Navigation task instructions ≤ 1000 字符**
 - [ ] 🤖 没有 `please specify` / `请说明` / `please name it` / `请填写名字` 这类平台不允许的自填提示
-- [ ] 🤖 所有 Rating scale / Matrix 题都有 Scale Labels；NPS 题**没有**（NPS 自带）
+- [ ] 🤖 所有 Rating scale / Matrix 题都有 Scale Labels；NPS 题若写标签，低端必须是 **0**（NPS 固定 0-10）
 - [ ] 端点措辞照 `survey-wording.md` 取（唯一出处），不临场另写；新增端点先改那份表
 - [ ] 端点语义贴题（满意度用 satisfied 系、可能性用 play / likely 系、同意度用 agree 系），不套用同一组
 - [ ] 两份英文稿的端点一致（2026-09-14 分叉过：无人版改了 `Very dissatisfied`、有人版还留着 `Very unsatisfied`）

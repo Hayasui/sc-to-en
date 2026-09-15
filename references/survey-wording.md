@@ -26,34 +26,41 @@
 
 | 项 | 规则 |
 |---|---|
-| Rating scale · Numeric 型 | 官方写的量程是 **-3 到 10**，所以 **1-10 合法**，不受"必须是奇数点"约束 |
+| Rating scale · Numeric 型 | 官方写的量程是 **-3 到 10**，所以 **1-7、1-10 都合法**，不受"必须是奇数点"约束 |
 | Rating scale · Customized 型 | 标签个数上限 **7** |
 | Matrix | 列的量程同为 **-3 到 10**，Customized 标签上限 **7** |
-| NPS | **独立题型**，固定 **0-10**（推荐者 9-10 / 被动者 7-8 / 贬损者 0-6），**不写 Scale Labels** |
+| NPS | **独立题型**，固定 **0-10**（推荐者 9-10 / 被动者 7-8 / 贬损者 0-6）；Scale Labels 可写可不写，写就低端 `0`、高端 `10` |
 | 端点 | 两端都要写明；**1 是不好的一端，最大数是好的一端** |
 
 > **关于"可选 5 / 7 / 9 / 11 点"**：那句话来自**旧平台**的帮助页，与现在的后台不是一套产品。
 > 「1 永远是不好的一端」这句也只写在旧平台文档里，新平台的配置页没有重述——项目沿用。
 > 引用平台规则前先分清是哪一代。
 
-## 二、量表端点（项目在用四套）
+## 二、量表端点（项目在用五套）
+
+**2026-09-15 全面改版**：区间由 1-10（Matrix 1-5）统一为 **1-7**（NPS 仍 0-10），
+满意度的低端由 `Very dissatisfied` 升到 `Extremely dissatisfied`，NPS 开始写 Scale Labels。
+改版的理由是统计口径：1-10 的双数点没有真正的中点，4 与 6 分居两侧；1-7 的 4 是重心，
+也不会把满意度压在量表正中间。
 
 | 量表 | 中文标签 | 英文端点（现用） | 出处 | 备注 |
 |---|---|---|---|---|
-| 满意度（1-10） | 1 = 非常不满意 ｜ 10 = 非常满意 | **1 = Very dissatisfied** ｜ **10 = Extremely satisfied** | 低端：`satisfied / dissatisfied` 的词汇区分；高端：SurveyMonkey | **两端强度不对称**（Very ↔ Extremely）。权威的双极 5 点写作 `Very satisfied` ↔ `Very dissatisfied`，SurveyMonkey 的 10 点写作 `Not at all satisfied` → `Extremely satisfied`。现用写法保留（端点属选择、不属错，2026-09-14 裁示），重做时再议 |
-| 继续玩的可能性（1-10） | 1 = 肯定不会玩 ｜ 10 = 肯定会玩 | **1 = Definitely won't play** ｜ **10 = Definitely will play** | **项目自定**（贴"玩不玩"的题面） | 平台样例与 SurveyMonkey 用的是 `Not at all likely` → `Extremely likely`。现用写法没有权威出处，但题面问的是"明天还玩不玩"，`play` 比 `likely` 贴题，保留 |
-| 同意度 Matrix（1-5） | 1 = 很不同意 ｜ 5 = 很同意 | **1 = Strongly disagree** ｜ **5 = Strongly agree** | NN/g、SurveyMonkey | 与权威一致 |
-| 喜好度（1-10） | 1 = 非常不喜欢 ｜ 10 = 非常喜欢 | **1 = Dislike it a lot** ｜ **10 = Like it a lot** | **项目自定** | 权威来源里**没有** "liking" 量表；最接近的是 importance 的 `Not at all important` → `Extremely important`。以后别把它当权威照抄 |
+| 满意度（1-7） | 1 = 非常不满意 ｜ 7 = 非常满意 | **1 = Extremely dissatisfied** ｜ **7 = Extremely satisfied** | 双极端点：Iowa DxTraining；词汇区分见 medscicommunications | 两端强度对称。1-10 时代"Very ↔ Extremely 不对称"的保留意见到此结束 |
+| 继续玩的可能性（1-7） | 1 = 肯定不会玩 ｜ 7 = 肯定会玩 | **1 = Definitely won't play** ｜ **7 = Definitely will play** | **项目自定**（贴"玩不玩"的题面） | 平台样例与 SurveyMonkey 用 `Not at all likely` → `Extremely likely`；题面问的是"明天还玩不玩"，`play` 比 `likely` 贴题，保留 |
+| 同意度 Matrix（1-7） | 1 = 很不同意 ｜ 7 = 很同意 | **1 = Strongly disagree** ｜ **7 = Strongly agree** | NN/g、SurveyMonkey | 与权威一致 |
+| 喜好度（1-7） | 1 = 非常不喜欢 ｜ 7 = 非常喜欢 | **1 = Dislike it a lot** ｜ **7 = Like it a lot** | **项目自定** | 权威来源里**没有** "liking" 量表；最接近的是 importance 的 `Not at all important` → `Extremely important`。以后别把它当权威照抄 |
+| NPS（0-10） | 0 = 不可能推荐 ｜ 10 = 特别可能会推荐 | **0 = Not likely at all** ｜ **10 = Extremely likely** | 平台样例、SurveyMonkey | 2026-09-15 起项目在 NPS 上也写标签；**低端必须写 0**，写成 1 会被 lint 拦下 |
 
-> **有人版不写 Scale Labels。** 有人版由主持人把量表念在题干里，现有两种念法并存：
-> `1 is very dissatisfied, 10 is very satisfied.`（Q17 / Q23 / Q25）与
-> `1 is the lowest, 10 is the highest.`（Q10 / Q11）。2026-09-14 裁示**不统一**，保持现状。
+> **有人版不写 Scale Labels。** 有人版由主持人把端点念在题干里。2026-09-15 起**只留一套念法**：
+> 满意度念 `1 is extremely dissatisfied, 7 is extremely satisfied.`，可能性念
+> `1 means definitely not, 7 means definitely yes.`，喜好度只念区间 `on a scale of 1 to 7`。
+> 旧裁决里"Q10/Q11 念 `1 is the lowest, 10 is the highest.`、与 Q17/Q23/Q25 两套并存"的做法作废。
 
 ## 三、固定选项标签
 
 | 中文 | 英文 | 出处 | 备注 |
 |---|---|---|---|
-| 其他 | **Other** | 平台（只认这个与 `None of the above`） | 不写 `Other (please specify)` / 请说明，平台不显示 |
+| 其他 | **Other** | 平台（只认这个与 `None of the above`） | 英文侧只写 `Other`，不写 `Other (please specify)`。**中文侧 2026-09-15 改写成「其他（请说明）」/「其他游戏（请说明）」**，与 lint 的 `FORBIDDEN_PROMPTS`（拦「请说明」）冲突，待裁决；英文列不受影响 |
 | 以上皆无 | **None of the above** | 平台 | |
 | 不愿回答（未用到） | **Prefer not to answer** | NN/g；Google Surveys 作 `I prefer not to say` | 涉及敏感信息时可加 |
 | 不适用 / 不知道 / 想不起来（未用到） | **Not applicable** / **I don't know** / **I don't recall** | NN/g | 备选 |
@@ -62,9 +69,10 @@ NN/g 明列的整套是 `Not applicable / None of the above / I don't know / I d
 
 ## 四、口径
 
-- Rating scale 全篇 **1-10**；Matrix 用 **1-5** 同意度；**NPS 是独立题型、固定 0-10**，不写 Scale Labels。不混用。
+- Rating scale 与 Matrix 全篇 **1-7**；**NPS 是独立题型、固定 0-10**，标签低端写 `0`。不混用。
 - 题型列只写中文简述，**不标区间**。
 - **两份英文稿要一起改。** 2026-09-14 出现过分叉：无人版改成了 `Very dissatisfied`，有人版还留着 `Very unsatisfied`——起因就是单边改。
+- **端点的唯一出处是本表。** 中英文定稿里出现端点，一律照抄，别在项目文件里另写一套。
 
 ## 五、出处
 
